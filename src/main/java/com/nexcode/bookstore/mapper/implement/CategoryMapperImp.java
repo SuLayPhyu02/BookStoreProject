@@ -1,14 +1,14 @@
-package com.nexcode.bookstore.mapper.implement1;
+package com.nexcode.bookstore.mapper.implement;
 
 import org.springframework.stereotype.Component;
 
-import com.nexcode.bookstore.mapper1.CategoryMapper1;
+import com.nexcode.bookstore.mapper.CategoryMapper;
 import com.nexcode.bookstore.models.dto.CategoryDto;
 import com.nexcode.bookstore.models.entities.Category;
 import com.nexcode.bookstore.models.requests.CategoryRequest;
 import com.nexcode.bookstore.models.response.CategoryResponse;
 @Component
-public class CategoryMapperImp1 implements CategoryMapper1{
+public class CategoryMapperImp implements CategoryMapper{
 
 	@Override
 	public CategoryDto toDto(CategoryRequest request) {

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nexcode.bookstore.mapper.implement1.BookMapperImpl1;
-import com.nexcode.bookstore.mapper.implement1.CategoryMapperImp1;
+import com.nexcode.bookstore.mapper.implement.BookMapperImpl;
+import com.nexcode.bookstore.mapper.implement.CategoryMapperImp;
 import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.dto.CategoryDto;
 import com.nexcode.bookstore.models.entities.Book;
@@ -18,14 +18,14 @@ import com.nexcode.bookstore.repository.CategoryRepository;
 @Service
 public class CategoryService {
 	@Autowired
-	private CategoryMapperImp1 categoryMapper1;
+	private CategoryMapperImp categoryMapper1;
 	@Autowired
 	private CategoryRepository categoryRepository;
 	@Autowired 
 	private BookRepository bookRepository;
 
 	@Autowired
-	private BookMapperImpl1 bookMapper1;
+	private BookMapperImpl bookMapper1;
 	//normal crud
 	public void saveCategory(CategoryDto categoryDto)
 	{
@@ -91,21 +91,21 @@ public class CategoryService {
 		categoryRepository.deleteAll();
 		
 	}
-	//extra function
-	public List<BookDto> getBooksByCategories(Long id) {
-	    List<Book> bookList = categoryRepository.findBooksByCategoryId(id);
-	    
-	    return bookList.stream()
-	            .map(book -> {
-	                BookDto bookDto = bookMapper1.toDto(book);
-	                
-	                CategoryDto categoryDto = categoryMapper1.toDto(book.getCategory());
-	                bookDto.setCategory(categoryDto);
-	                
-	                return bookDto;
-	            })
-	            .collect(Collectors.toList());
-	}
+//	//extra function
+//	public List<BookDto> getBooksByCategories(Long id) {
+//	    List<Book> bookList = categoryRepository.findBooksByCategoryId(id);
+//	    
+//	    return bookList.stream()
+//	            .map(book -> {
+//	                BookDto bookDto = bookMapper1.toDto(book);
+//	                
+//	                CategoryDto categoryDto = categoryMapper1.toDto(book.getCategory());
+//	                bookDto.setCategory(categoryDto);
+//	                
+//	                return bookDto;
+//	            })
+//	            .collect(Collectors.toList());
+//	}
 
 
 

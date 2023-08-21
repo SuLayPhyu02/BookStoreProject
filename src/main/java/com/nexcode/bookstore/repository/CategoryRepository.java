@@ -10,8 +10,11 @@ import com.nexcode.bookstore.models.entities.Book;
 import com.nexcode.bookstore.models.entities.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long>{
+
 	@Query("SELECT b FROM Book b JOIN b.category c WHERE c.categoryId = :categoryId")
     List<Book> findBooksByCategoryId(@Param("categoryId") Long categoryId);
+	
+	Category findByName(String name);
 
 	
 }

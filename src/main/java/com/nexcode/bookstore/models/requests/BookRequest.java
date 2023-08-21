@@ -1,6 +1,6 @@
 package com.nexcode.bookstore.models.requests;
 
-import com.nexcode.bookstore.models.dto.CategoryDto;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +15,6 @@ public class BookRequest {
 
 	private String name; 
 	private double price;
-	private CategoryDto category;
+	private List<Long>author_id;
+	private Long categoryId;
 }

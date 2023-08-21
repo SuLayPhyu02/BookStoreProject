@@ -1,15 +1,18 @@
-package com.nexcode.bookstore.mapper.implement1;
+package com.nexcode.bookstore.mapper.implement;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.nexcode.bookstore.mapper1.AuthorMapper1;
+import com.nexcode.bookstore.mapper.AuthorMapper;
 import com.nexcode.bookstore.models.dto.AuthorDto;
 import com.nexcode.bookstore.models.entities.Author;
 import com.nexcode.bookstore.models.requests.AuthorRequest;
 import com.nexcode.bookstore.models.response.AuthorResponse;
 @Component
-public class AuthorMapperImp1 implements AuthorMapper1{
-
+public class AuthorMapperImp implements AuthorMapper{
+ 
 	@Override
 	public AuthorDto toDto(AuthorRequest request) {
 		AuthorDto authorDto=new AuthorDto();
@@ -43,6 +46,19 @@ public class AuthorMapperImp1 implements AuthorMapper1{
 		response.setId(dto.getId());
 		response.setName(dto.getName());
 		return response;
+	}
+
+	@Override
+	public List<AuthorDto> toDto(List<Author> authors) {
+		
+		
+		return authors.stream().map(a->toDto(a)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<AuthorResponse> toResponse(List<AuthorDto> authordtos) {
+		
+		return authordtos.stream().map(a->toResponse(a)).collect(Collectors.toList());
 	}
 
 }

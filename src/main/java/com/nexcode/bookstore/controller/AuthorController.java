@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nexcode.bookstore.mapper1.AuthorMapper1;
-import com.nexcode.bookstore.mapper1.BookMapper1;
+import com.nexcode.bookstore.mapper.AuthorMapper;
+import com.nexcode.bookstore.mapper.BookMapper;
 import com.nexcode.bookstore.models.dto.AuthorDto;
 import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.requests.AuthorRequest;
-import com.nexcode.bookstore.models.requests.BookRequest;
 import com.nexcode.bookstore.models.response.AuthorResponse;
 import com.nexcode.bookstore.models.response.BookResponse;
 import com.nexcode.bookstore.service.AuthorService;
@@ -29,9 +28,9 @@ public class AuthorController {
 	@Autowired
 	private AuthorService authorService;
 	@Autowired
-	private AuthorMapper1 authorMapper1;
+	private AuthorMapper authorMapper1;
 	@Autowired
-	private BookMapper1 bookmapper1;
+	private BookMapper bookmapper1;
 	
 	
 	@PostMapping
@@ -70,19 +69,20 @@ public class AuthorController {
 	public void deleteAll()
 	{
 		authorService.deleteAllAuthor();
+		
 	}
 	//extra
-	@GetMapping("/{authorId}/books")
-	public List<BookResponse> getBooksByAuthorWithCategory(@PathVariable Long authorId) {
-	    List<BookDto> dtolist = authorService.getBooksCategoryByAuthorId(authorId);
-	    List<BookResponse> responses = dtolist.stream()
-	            .map(b -> {
-	                BookResponse response = bookmapper1.toResponse(b);
-	                response.setCategory(b.getCategory());
-	                return response;
-	            })
-	            .collect(Collectors.toList());
-	    return responses;
-	}
+//	@GetMapping("/{authorId}/books")
+//	public List<BookResponse> getBooksByAuthorWithCategory(@PathVariable Long authorId) {
+//	    List<BookDto> dtolist = authorService.getBooksCategoryByAuthorId(authorId);
+//	    List<BookResponse> responses = dtolist.stream()
+//	            .map(b -> {
+//	                BookResponse response = bookmapper1.toResponse(b);
+//	                setCategoryResponse(b.getCategory());
+//	                return response;
+//	            })
+//	            .collect(Collectors.toList());
+//	    return responses;
+//	}
 	
 }

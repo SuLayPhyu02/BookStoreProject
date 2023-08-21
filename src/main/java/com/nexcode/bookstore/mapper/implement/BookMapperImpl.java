@@ -1,14 +1,24 @@
-package com.nexcode.bookstore.mapper.implement1;
+package com.nexcode.bookstore.mapper.implement;
 
 import org.springframework.stereotype.Component;
 
-import com.nexcode.bookstore.mapper1.BookMapper1;
+import com.nexcode.bookstore.mapper.AuthorMapper;
+import com.nexcode.bookstore.mapper.BookMapper;
+import com.nexcode.bookstore.mapper.CategoryMapper;
 import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.entities.Book;
 import com.nexcode.bookstore.models.requests.BookRequest;
 import com.nexcode.bookstore.models.response.BookResponse;
 @Component
-public class BookMapperImpl1 implements BookMapper1{
+public class BookMapperImpl implements BookMapper{
+	private final AuthorMapper authormapper;
+	private final CategoryMapper categorymapper;
+	
+	public BookMapperImpl(AuthorMapper authormapper, CategoryMapper categorymapper) {
+		super();
+		this.authormapper = authormapper;
+		this.categorymapper = categorymapper;
+	}
 
 	@Override
 	public BookDto toDto(BookRequest request) {
@@ -19,6 +29,8 @@ public class BookMapperImpl1 implements BookMapper1{
 		}
 		bookdto.setName(request.getName());
 		bookdto.setPrice(request.getPrice());
+		bookdto.setAuthorIds(request.getAuthor_id());
+		bookdto.setCategoryId(request.getCategoryId());
 		return bookdto;
 	}
 
@@ -32,6 +44,8 @@ public class BookMapperImpl1 implements BookMapper1{
 		bookdto.setId(book.getBookId());
 		bookdto.setName(book.getName());
 		bookdto.setPrice(book.getPrice());
+		bookdto.setCategory(categorymapper.toDto(book.getCategory()));
+		bookdto.setAuthordtos(authormapper.toDto(book.getAuthors()));
 		return bookdto;
 	}
 
@@ -45,7 +59,10 @@ public class BookMapperImpl1 implements BookMapper1{
 		bookresponse.setId(dto.getId());
 		bookresponse.setName(dto.getName());
 		bookresponse.setPrice(dto.getPrice());
+		bookresponse.setCategoryResponse(categorymapper.toResponse(dto.getCategory()));
+		bookresponse.setAuthorResponses(authormapper.toResponse(dto.getAuthordtos()));
 		return bookresponse;
 	}
+	
 
 }

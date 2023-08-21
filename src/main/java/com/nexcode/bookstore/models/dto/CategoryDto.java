@@ -1,6 +1,9 @@
 package com.nexcode.bookstore.models.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -9,5 +12,4 @@ import lombok.*;
 public class CategoryDto {
 	private Long id;
 	private String name;
-
 }

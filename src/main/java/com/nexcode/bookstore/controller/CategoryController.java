@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nexcode.bookstore.mapper1.BookMapper1;
-import com.nexcode.bookstore.mapper1.CategoryMapper1;
+import com.nexcode.bookstore.mapper.BookMapper;
+import com.nexcode.bookstore.mapper.CategoryMapper;
 import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.dto.CategoryDto;
 import com.nexcode.bookstore.models.requests.BookRequest;
@@ -26,9 +26,9 @@ import com.nexcode.bookstore.service.CategoryService;
 @RequestMapping("/api/categories")
 public class CategoryController {
 	@Autowired
-	private CategoryMapper1 categoryMappper1;
+	private CategoryMapper categoryMappper1;
 	@Autowired
-	private BookMapper1 bookMapper1;
+	private BookMapper bookMapper1;
 	@Autowired
 	private CategoryService categoryService;
 	@PostMapping
@@ -63,18 +63,18 @@ public class CategoryController {
 		categoryService.deleteCategory(id);
 	}
 	//extra method
-	@GetMapping("/{categoryId}/books")
-	public List<BookResponse> getBooksByCategories(@PathVariable Long categoryId) {
-	    List<BookDto> dtolist = categoryService.getBooksByCategories(categoryId);
-	    List<BookResponse> responseList = dtolist.stream()
-	            .map(b -> {
-	                BookResponse response = bookMapper1.toResponse(b);
-	                response.setCategory(b.getCategory());
-	                return response;
-	            })
-	            .collect(Collectors.toList());
-	    return responseList;
-	}
+//	@GetMapping("/{categoryId}/books")
+//	public List<BookResponse> getBooksByCategories(@PathVariable Long categoryId) {
+//	    List<BookDto> dtolist = categoryService.getBooksByCategories(categoryId);
+//	    List<BookResponse> responseList = dtolist.stream()
+//	            .map(b -> {
+//	                BookResponse response = bookMapper1.toResponse(b);
+//	                response.setCategorydto(b.getCategory());
+//	                return response;
+//	            })
+//	            .collect(Collectors.toList());
+//	    return responseList;
+//	}
 
 	@PostMapping("/{categoryId}/books")
 	public BookDto addBookWithCategory(@PathVariable Long categoryId,@RequestBody BookRequest request)
