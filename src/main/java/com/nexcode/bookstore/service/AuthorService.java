@@ -3,7 +3,6 @@ package com.nexcode.bookstore.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +19,23 @@ import com.nexcode.bookstore.repository.AuthorRepository;
 @Service
 public class AuthorService {
 
-	@Autowired
-	private AuthorRepository authorRepository;
-	@Autowired
-	private AuthorMapper authorMapper1;
-
-	@Autowired
-	private BookMapper bookmapper1;
 	
-	@Autowired
-	private CategoryMapper categorymapper1;
+	private final AuthorRepository authorRepository;
+	private final AuthorMapper authorMapper1;
+	private final BookMapper bookmapper1;
+	private final CategoryMapper categorymapper1;
+	
+	
+	
+	public AuthorService(AuthorRepository authorRepository, AuthorMapper authorMapper1, BookMapper bookmapper1,
+			CategoryMapper categorymapper1) {
+		super();
+		this.authorRepository = authorRepository;
+		this.authorMapper1 = authorMapper1;
+		this.bookmapper1 = bookmapper1;
+		this.categorymapper1 = categorymapper1;
+	}
+
 	public AuthorDto addAuthor(AuthorDto authorDto) {
 		Author author = new Author();
 		if (authorDto == null) {

@@ -3,7 +3,6 @@ package com.nexcode.bookstore.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,25 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nexcode.bookstore.mapper.AuthorMapper;
-import com.nexcode.bookstore.mapper.BookMapper;
 import com.nexcode.bookstore.models.dto.AuthorDto;
-import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.requests.AuthorRequest;
 import com.nexcode.bookstore.models.response.AuthorResponse;
-import com.nexcode.bookstore.models.response.BookResponse;
 import com.nexcode.bookstore.service.AuthorService;
 
 @RestController
 @RequestMapping("/api/authors")
 public class AuthorController {
-	@Autowired
-	private AuthorService authorService;
-	@Autowired
-	private AuthorMapper authorMapper1;
-	@Autowired
-	private BookMapper bookmapper1;
 	
 	
+	private final AuthorService authorService;
+	private final AuthorMapper authorMapper1;
+
+	
+	
+	public AuthorController(AuthorService authorService, AuthorMapper authorMapper1) {
+		super();
+		this.authorService = authorService;
+		this.authorMapper1 = authorMapper1;
+	}
+
 	@PostMapping
 	public AuthorDto createAuthor(@RequestBody AuthorRequest request)
 	{

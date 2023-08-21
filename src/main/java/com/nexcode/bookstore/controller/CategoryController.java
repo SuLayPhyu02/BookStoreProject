@@ -3,7 +3,6 @@ package com.nexcode.bookstore.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,18 +18,24 @@ import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.dto.CategoryDto;
 import com.nexcode.bookstore.models.requests.BookRequest;
 import com.nexcode.bookstore.models.requests.CategoryRequest;
-import com.nexcode.bookstore.models.response.BookResponse;
 import com.nexcode.bookstore.models.response.CategoryResponse;
 import com.nexcode.bookstore.service.CategoryService;
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-	@Autowired
-	private CategoryMapper categoryMappper1;
-	@Autowired
-	private BookMapper bookMapper1;
-	@Autowired
-	private CategoryService categoryService;
+	
+	private final CategoryMapper categoryMappper1;
+	private final BookMapper bookMapper1;
+	private final CategoryService categoryService;
+	
+	public CategoryController(CategoryMapper categoryMappper1, BookMapper bookMapper1,
+			CategoryService categoryService) {
+		super();
+		this.categoryMappper1 = categoryMappper1;
+		this.bookMapper1 = bookMapper1;
+		this.categoryService = categoryService;
+	}
+	
 	@PostMapping
 	public CategoryDto createCategory(@RequestBody CategoryRequest request)
 	{

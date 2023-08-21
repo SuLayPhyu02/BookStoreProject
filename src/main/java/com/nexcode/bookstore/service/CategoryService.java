@@ -3,7 +3,6 @@ package com.nexcode.bookstore.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +16,19 @@ import com.nexcode.bookstore.repository.BookRepository;
 import com.nexcode.bookstore.repository.CategoryRepository;
 @Service
 public class CategoryService {
-	@Autowired
-	private CategoryMapperImp categoryMapper1;
-	@Autowired
-	private CategoryRepository categoryRepository;
-	@Autowired 
-	private BookRepository bookRepository;
-
-	@Autowired
-	private BookMapperImpl bookMapper1;
+	private final CategoryMapperImp categoryMapper1;
+	private final CategoryRepository categoryRepository;
+	private final BookRepository bookRepository;
+	private final BookMapperImpl bookMapper1;
+	
+	public CategoryService(CategoryMapperImp categoryMapper1, CategoryRepository categoryRepository,
+			BookRepository bookRepository, BookMapperImpl bookMapper1) {
+		super();
+		this.categoryMapper1 = categoryMapper1;
+		this.categoryRepository = categoryRepository;
+		this.bookRepository = bookRepository;
+		this.bookMapper1 = bookMapper1;
+	}
 	//normal crud
 	public void saveCategory(CategoryDto categoryDto)
 	{

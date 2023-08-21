@@ -3,7 +3,6 @@ package com.nexcode.bookstore.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,12 +25,16 @@ import com.nexcode.bookstore.service.BookService;
 @RequestMapping("/api/books")
 public class BookController {
 
-	@Autowired
-	private BookMapper bookMapper1;
-	@Autowired
-	private BookService bookservice;
-	@Autowired
-	private AuthorMapper authorMapper1;
+	private final BookMapper bookMapper1;
+	private final BookService bookservice;
+	private final AuthorMapper authorMapper1;
+
+	public BookController(BookMapper bookMapper1, BookService bookservice, AuthorMapper authorMapper1) {
+		super();
+		this.bookMapper1 = bookMapper1;
+		this.bookservice = bookservice;
+		this.authorMapper1 = authorMapper1;
+	}
 
 //	@PostMapping
 //	public BookDto createBook(@RequestBody BookRequest request) {
@@ -85,11 +88,12 @@ public class BookController {
 		BookResponse response = bookMapper1.toResponse(dto);
 		return response;
 	}
+
 	@PostMapping
 	public BookDto addBookWithCategoryAuthors(@RequestBody BookRequest request) {
 		BookDto dto = bookMapper1.toDto(request);
 		BookDto createdBookDto = bookservice.saveBook(dto);
-		return createdBookDto; 
+		return createdBookDto;
 	}
 
 }
