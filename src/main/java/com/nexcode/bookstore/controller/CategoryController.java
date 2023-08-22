@@ -24,22 +24,19 @@ import com.nexcode.bookstore.service.CategoryService;
 @RequestMapping("/api/categories")
 public class CategoryController {
 	
-	private final CategoryMapper categoryMappper1;
-	private final BookMapper bookMapper1;
+	private final CategoryMapper categoryMapper;
+	private final BookMapper bookMapper;
 	private final CategoryService categoryService;
 	
-	public CategoryController(CategoryMapper categoryMappper1, BookMapper bookMapper1,
-			CategoryService categoryService) {
-		super();
-		this.categoryMappper1 = categoryMappper1;
-		this.bookMapper1 = bookMapper1;
+	public CategoryController(CategoryMapper categoryMapper, BookMapper bookMapper, CategoryService categoryService) {
+		this.categoryMapper = categoryMapper;
+		this.bookMapper = bookMapper;
 		this.categoryService = categoryService;
 	}
-	
 	@PostMapping
 	public CategoryDto createCategory(@RequestBody CategoryRequest request)
 	{
-		CategoryDto dto=categoryMappper1.toDto(request);
+		CategoryDto dto=categoryMapper.toDto(request);
 		categoryService.saveCategory(dto);
 		return dto;
 	}
@@ -47,7 +44,7 @@ public class CategoryController {
 	public List<CategoryResponse> getAllCategory()
 	{
 		List<CategoryDto> dtoList=categoryService.getAllCategory();
-		List<CategoryResponse> responseList=dtoList.stream().map(c->categoryMappper1.toResponse(c)).collect(Collectors.toList());
+		List<CategoryResponse> responseList=dtoList.stream().map(c->categoryMapper.toResponse(c)).collect(Collectors.toList());
 		return responseList;
 	}
 	@GetMapping("/{id}")
@@ -58,7 +55,7 @@ public class CategoryController {
 	@PutMapping("/{id}")
 	public CategoryDto updateBook(@PathVariable Long id, @RequestBody CategoryRequest request)
 	{
-	    CategoryDto updateBook = categoryMappper1.toDto(request);
+	    CategoryDto updateBook = categoryMapper.toDto(request);
 	    CategoryDto alreadyUpdatedDto = categoryService.updateCategory(id, updateBook);
 	    return alreadyUpdatedDto;
 	}
@@ -68,12 +65,14 @@ public class CategoryController {
 		categoryService.deleteCategory(id);
 	}
 	//extra method
+	
+	
 //	@GetMapping("/{categoryId}/books")
 //	public List<BookResponse> getBooksByCategories(@PathVariable Long categoryId) {
 //	    List<BookDto> dtolist = categoryService.getBooksByCategories(categoryId);
 //	    List<BookResponse> responseList = dtolist.stream()
 //	            .map(b -> {
-//	                BookResponse response = bookMapper1.toResponse(b);
+//	                BookResponse response = bookMapper.toResponse(b);
 //	                response.setCategorydto(b.getCategory());
 //	                return response;
 //	            })
@@ -84,7 +83,7 @@ public class CategoryController {
 	@PostMapping("/{categoryId}/books")
 	public BookDto addBookWithCategory(@PathVariable Long categoryId,@RequestBody BookRequest request)
 	{
-		BookDto bookDto=bookMapper1.toDto(request);
+		BookDto bookDto=bookMapper.toDto(request);
 		BookDto addBookDto=categoryService.addBookWithCategory(categoryId,bookDto);
 		return addBookDto;
 	}

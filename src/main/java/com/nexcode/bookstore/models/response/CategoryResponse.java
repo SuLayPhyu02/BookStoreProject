@@ -1,11 +1,10 @@
 package com.nexcode.bookstore.models.response;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CategoryResponse {
 	private Long id;
 	private String name;

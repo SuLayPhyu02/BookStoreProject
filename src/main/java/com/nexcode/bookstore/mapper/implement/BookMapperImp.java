@@ -10,11 +10,11 @@ import com.nexcode.bookstore.models.entities.Book;
 import com.nexcode.bookstore.models.requests.BookRequest;
 import com.nexcode.bookstore.models.response.BookResponse;
 @Component
-public class BookMapperImpl implements BookMapper{
+public class BookMapperImp implements BookMapper{
 	private final AuthorMapper authormapper;
 	private final CategoryMapper categorymapper;
 	
-	public BookMapperImpl(AuthorMapper authormapper, CategoryMapper categorymapper) {
+	public BookMapperImp(AuthorMapper authormapper, CategoryMapper categorymapper) {
 		super();
 		this.authormapper = authormapper;
 		this.categorymapper = categorymapper;
@@ -29,7 +29,7 @@ public class BookMapperImpl implements BookMapper{
 		}
 		bookdto.setName(request.getName());
 		bookdto.setPrice(request.getPrice());
-		bookdto.setAuthorIds(request.getAuthor_id());
+		bookdto.setAuthorIds(request.getAuthorIds());
 		bookdto.setCategoryId(request.getCategoryId());
 		return bookdto;
 	}

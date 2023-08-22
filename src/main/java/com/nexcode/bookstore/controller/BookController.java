@@ -25,75 +25,63 @@ import com.nexcode.bookstore.service.BookService;
 @RequestMapping("/api/books")
 public class BookController {
 
-	private final BookMapper bookMapper1;
-	private final BookService bookservice;
-	private final AuthorMapper authorMapper1;
-
-	public BookController(BookMapper bookMapper1, BookService bookservice, AuthorMapper authorMapper1) {
-		super();
-		this.bookMapper1 = bookMapper1;
-		this.bookservice = bookservice;
-		this.authorMapper1 = authorMapper1;
+	private final BookMapper bookMapper;
+	private final BookService bookService;
+	private final AuthorMapper authorMapper;
+	
+	public BookController(BookMapper bookMapper, BookService bookService, AuthorMapper authorMapper) {
+		this.bookMapper = bookMapper;
+		this.bookService = bookService;
+		this.authorMapper = authorMapper;
 	}
-
-//	@PostMapping
-//	public BookDto createBook(@RequestBody BookRequest request) {
-//		BookDto dto = bookMapper1.toDto(request);
-//		BookDto createdBookDto = bookservice.addBookToDatabase(dto);
-//		return createdBookDto; 
-//	}
 
 	@GetMapping
 	public List<BookResponse> getAllBooks() {
-		List<BookDto> dtolist = bookservice.getAllBooks();
-		List<BookResponse> responseList = dtolist.stream().map(r -> bookMapper1.toResponse(r))
+		List<BookDto> dtolist = bookService.getAllBooks();
+		List<BookResponse> responseList = dtolist.stream().map(r -> bookMapper.toResponse(r))
 				.collect(Collectors.toList());
 		return responseList;
 	}
 
-//	@GetMapping("/{id}")
-//	public BookDto getBook(@PathVariable Long id) {
-//		return bookservice.getBook(id);
-//	}
-
-	@PutMapping("/{id}")
-	public BookDto updateBook(@PathVariable Long id, @RequestBody BookRequest request) {
-		BookDto updateBook = bookMapper1.toDto(request);
-		BookDto alreadyUpdatedDto = bookservice.updateBook(id, updateBook);
-		return alreadyUpdatedDto;
-	}
-
 	@DeleteMapping("/{id}")
 	public void deleteBook(@PathVariable Long id) {
-		bookservice.deleteBook(id);
+		bookService.deleteBook(id);
 	}
 
 	@DeleteMapping
 	public void deleteAll() {
-		bookservice.deleteAllBooks();
+		bookService.deleteAllBooks();
 	}
 
 	// extra function
+	
 	@GetMapping("/{bookId}/authors")
 	public List<AuthorResponse> getAuthorsByBook(@PathVariable Long bookId) {
-		List<AuthorDto> authorDto = bookservice.getAuthorsByBookId(bookId);
-		List<AuthorResponse> responses = authorDto.stream().map(a -> authorMapper1.toResponse(a))
+		List<AuthorDto> authorDto = bookService.getAuthorsByBookId(bookId);
+		List<AuthorResponse> responses = authorDto.stream().map(a -> authorMapper.toResponse(a))
 				.collect(Collectors.toList());
 		return responses;
 	}
 
 	@GetMapping("/{id}")
 	public BookResponse getAll(@PathVariable Long id) {
-		BookDto dto = bookservice.getBookById(id);
-		BookResponse response = bookMapper1.toResponse(dto);
+		BookDto dto = bookService.getBookById(id);
+		BookResponse response = bookMapper.toResponse(dto);
 		return response;
 	}
 
 	@PostMapping
 	public BookDto addBookWithCategoryAuthors(@RequestBody BookRequest request) {
-		BookDto dto = bookMapper1.toDto(request);
-		BookDto createdBookDto = bookservice.saveBook(dto);
+		BookDto dto = bookMapper.toDto(request);
+		BookDto createdBookDto = bookService.saveBook(dto);
 		return createdBookDto;
+	}
+	
+	@PutMapping("/{id}")
+	public BookDto updateBook(@PathVariable Long id, @RequestBody BookRequest request) {
+		BookDto updateBook = bookMapper.toDto(request);
+		BookDto alreadyUpdatedDto = bookService.updatingBook(id, updateBook);
+		return alreadyUpdatedDto;
 	}
 
 }

@@ -21,19 +21,17 @@ public class AuthorService {
 
 	
 	private final AuthorRepository authorRepository;
-	private final AuthorMapper authorMapper1;
-	private final BookMapper bookmapper1;
-	private final CategoryMapper categorymapper1;
+	private final AuthorMapper authorMapper;
+	private final BookMapper bookMapper;
+	private final CategoryMapper categoryMapper;
 	
-	
-	
-	public AuthorService(AuthorRepository authorRepository, AuthorMapper authorMapper1, BookMapper bookmapper1,
-			CategoryMapper categorymapper1) {
-		super();
+
+	public AuthorService(AuthorRepository authorRepository, AuthorMapper authorMapper, BookMapper bookMapper,
+			CategoryMapper categoryMapper) {
 		this.authorRepository = authorRepository;
-		this.authorMapper1 = authorMapper1;
-		this.bookmapper1 = bookmapper1;
-		this.categorymapper1 = categorymapper1;
+		this.authorMapper = authorMapper;
+		this.bookMapper = bookMapper;
+		this.categoryMapper = categoryMapper;
 	}
 
 	public AuthorDto addAuthor(AuthorDto authorDto) {
@@ -49,7 +47,7 @@ public class AuthorService {
 
 	public List<AuthorDto> getAllAuthors() {
 		List<Author> authors = authorRepository.findAll();
-		List<AuthorDto> authorDtos = authors.stream().map(a -> authorMapper1.toDto(a)).collect(Collectors.toList());
+		List<AuthorDto> authorDtos = authors.stream().map(a -> authorMapper.toDto(a)).collect(Collectors.toList());
 		return authorDtos;
 	}
 
@@ -57,7 +55,7 @@ public class AuthorService {
 		List<Author> authors = authorRepository.findAll();
 		for (Author author : authors) {
 			if (author.getAuthorId().equals(id)) {
-				return authorMapper1.toDto(author);
+				return authorMapper.toDto(author);
 			}
 		}
 		return null;
@@ -73,7 +71,7 @@ public class AuthorService {
 
 		existingAuthor.setName(updateDto.getName());
 
-		return authorMapper1.toDto(existingAuthor);
+		return authorMapper.toDto(existingAuthor);
 	}
 
 	public void deleteAuthor(Long id) {
@@ -93,8 +91,8 @@ public class AuthorService {
 	    
 	    return books.stream()
 	            .map(book -> {
-	                BookDto bookDto = bookmapper1.toDto(book);
-	                CategoryDto categoryDto=categorymapper1.toDto(book.getCategory());
+	                BookDto bookDto = bookMapper.toDto(book);
+	                CategoryDto categoryDto=categoryMapper.toDto(book.getCategory());
 	                bookDto.setCategory(categoryDto);
 	                return bookDto;
 	            })

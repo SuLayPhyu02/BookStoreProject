@@ -1,11 +1,9 @@
 package com.nexcode.bookstore.models.requests;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 public class CategoryRequest {
 	private String name;
 

@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nexcode.bookstore.mapper.implement.BookMapperImpl;
-import com.nexcode.bookstore.mapper.implement.CategoryMapperImp;
+import com.nexcode.bookstore.mapper.BookMapper;
+import com.nexcode.bookstore.mapper.CategoryMapper;
 import com.nexcode.bookstore.models.dto.BookDto;
 import com.nexcode.bookstore.models.dto.CategoryDto;
 import com.nexcode.bookstore.models.entities.Book;
@@ -16,18 +16,18 @@ import com.nexcode.bookstore.repository.BookRepository;
 import com.nexcode.bookstore.repository.CategoryRepository;
 @Service
 public class CategoryService {
-	private final CategoryMapperImp categoryMapper1;
+	private final CategoryMapper categoryMapper;
 	private final CategoryRepository categoryRepository;
 	private final BookRepository bookRepository;
-	private final BookMapperImpl bookMapper1;
+	private final BookMapper bookMapper;
 	
-	public CategoryService(CategoryMapperImp categoryMapper1, CategoryRepository categoryRepository,
-			BookRepository bookRepository, BookMapperImpl bookMapper1) {
-		super();
-		this.categoryMapper1 = categoryMapper1;
+	
+	public CategoryService(CategoryMapper categoryMapper, CategoryRepository categoryRepository,
+			BookRepository bookRepository, BookMapper bookMapper) {
+		this.categoryMapper = categoryMapper;
 		this.categoryRepository = categoryRepository;
 		this.bookRepository = bookRepository;
-		this.bookMapper1 = bookMapper1;
+		this.bookMapper = bookMapper;
 	}
 	//normal crud
 	public void saveCategory(CategoryDto categoryDto)
@@ -38,7 +38,7 @@ public class CategoryService {
 	}
 	public List<CategoryDto> getAllCategory(){
 		List<Category> category=categoryRepository.findAll();
-		List<CategoryDto> catList=category.stream().map(c->categoryMapper1.toDto(c)).collect(Collectors.toList());
+		List<CategoryDto> catList=category.stream().map(c->categoryMapper.toDto(c)).collect(Collectors.toList());
 		return catList;
 	}
 	public CategoryDto getCategory(Long id)
@@ -48,7 +48,7 @@ public class CategoryService {
 	    {
 	        if (category.getCategoryId().equals(id))
 	        {
-	            return categoryMapper1.toDto(category);
+	            return categoryMapper.toDto(category);
 	        }
 	    }
 	    return null;
@@ -64,7 +64,7 @@ public class CategoryService {
 	    
 	    existingCategory.setName(updateDto.getName());
 	    
-	    return categoryMapper1.toDto(existingCategory);
+	    return categoryMapper.toDto(existingCategory);
 	}
 	public void deleteCategory(Long id)
 	{
@@ -83,7 +83,7 @@ public class CategoryService {
 			book.setPrice(bookDto.getPrice());
 			book.setCategory(category);
 			Book savedBook=bookRepository.save(book);
-			return bookMapper1.toDto(savedBook);
+			return bookMapper.toDto(savedBook);
 		}
 		else {
 			return null;
@@ -94,21 +94,22 @@ public class CategoryService {
 		categoryRepository.deleteAll();
 		
 	}
-//	//extra function
-//	public List<BookDto> getBooksByCategories(Long id) {
-//	    List<Book> bookList = categoryRepository.findBooksByCategoryId(id);
-//	    
-//	    return bookList.stream()
-//	            .map(book -> {
-//	                BookDto bookDto = bookMapper1.toDto(book);
-//	                
-//	                CategoryDto categoryDto = categoryMapper1.toDto(book.getCategory());
-//	                bookDto.setCategory(categoryDto);
-//	                
-//	                return bookDto;
-//	            })
-//	            .collect(Collectors.toList());
-//	}
+	//extra function
+	
+	public List<BookDto> getBooksByCategories(Long id) {
+	    List<Book> bookList = categoryRepository.findBooksByCategoryId(id);
+	    
+	    return bookList.stream()
+	            .map(book -> {
+	                BookDto bookDto = bookMapper.toDto(book);
+	                
+	                CategoryDto categoryDto = categoryMapper.toDto(book.getCategory());
+	                bookDto.setCategory(categoryDto);
+	                
+	                return bookDto;
+	            })
+	            .collect(Collectors.toList());
+	}
 
 
 

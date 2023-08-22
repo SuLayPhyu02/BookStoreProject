@@ -24,20 +24,17 @@ public class AuthorController {
 	
 	
 	private final AuthorService authorService;
-	private final AuthorMapper authorMapper1;
+	private final AuthorMapper authorMapper;
 
-	
-	
-	public AuthorController(AuthorService authorService, AuthorMapper authorMapper1) {
-		super();
+	public AuthorController(AuthorService authorService, AuthorMapper authorMapper) {
 		this.authorService = authorService;
-		this.authorMapper1 = authorMapper1;
+		this.authorMapper = authorMapper;
 	}
 
 	@PostMapping
 	public AuthorDto createAuthor(@RequestBody AuthorRequest request)
 	{
-	    AuthorDto dto = authorMapper1.toDto(request);
+	    AuthorDto dto = authorMapper.toDto(request);
 	    AuthorDto createdAuthorDto = authorService.addAuthor(dto);
 	    return createdAuthorDto; 
 	}
@@ -46,7 +43,7 @@ public class AuthorController {
 	public List<AuthorResponse> getAllBooks()
 	{
 		List<AuthorDto> dtolist=authorService.getAllAuthors();
-		List<AuthorResponse> responseList=dtolist.stream().map(a->authorMapper1.toResponse(a)).collect(Collectors.toList());
+		List<AuthorResponse> responseList=dtolist.stream().map(a->authorMapper.toResponse(a)).collect(Collectors.toList());
 		return responseList;
 	}
 	@GetMapping("/{id}")
@@ -57,7 +54,7 @@ public class AuthorController {
 	@PutMapping("/{id}")
 	public AuthorDto updateAuthor(@PathVariable Long id, @RequestBody AuthorRequest request)
 	{
-	    AuthorDto updateAuthor = authorMapper1.toDto(request);
+	    AuthorDto updateAuthor = authorMapper.toDto(request);
 	    AuthorDto alreadyUpdatedDto = authorService.updateAuthor(id, updateAuthor);
 	    return alreadyUpdatedDto;
 	}
